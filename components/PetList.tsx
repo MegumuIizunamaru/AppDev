@@ -54,7 +54,7 @@ export default function PetList() {
             justifyContent: 'center'
         }}>
             <Card.Title title={item.name} titleStyle={{fontWeight: "bold", fontSize:20}}/>
-            <Card.Cover source={require("@/assets/images/cat_icon.jpg")}/>
+            <Card.Cover source={{ uri: item.picture }}/>
             
             <Card.Content> 
                 <Text>{item.type}, Breed: {item.breed}</Text>

@@ -55,7 +55,11 @@ export default function AddPetForm() {
                     [{ resize: { width: 800 } }],
                     { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
                 );
-                setPet((p) => ({ ...p, picture: manipResult.uri }));
+                const b64 = await FileSystem.readAsStringAsync(manipResult.uri, {
+                    encoding: FileSystem.EncodingType.Base64,
+                });
+                const dataUri = `data:image/jpeg;base64,${b64}`;
+                setPet((p) => ({ ...p, picture: dataUri }));
             } catch (e) {
                 console.error('Image manipulation error:', e);
                 setPet((p) => ({ ...p, picture: uri }));
