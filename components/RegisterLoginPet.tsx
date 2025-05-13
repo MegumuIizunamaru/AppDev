@@ -12,6 +12,7 @@ import {
 import SelectDropdown from 'react-native-select-dropdown'
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator'
+import * as FileSystem from 'expo-file-system';
 import { collection, addDoc, onSnapshot } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { db } from '@/components/FirebaseConfig';
