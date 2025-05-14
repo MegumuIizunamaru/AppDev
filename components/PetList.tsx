@@ -21,11 +21,6 @@ export default function PetList() {
     const { height, width } = useWindowDimensions()
     const numColums = width < SM_SCREEN ? 1 : width < MD_SCREEN ? 2 : 4
     useEffect(() => {
-        // const fetchPets = async () => {
-        //     const data = await getPets();
-        //     setPetData(data);
-        // };
-        // fetchPets();
         if (!uid) return;
         const petsRef = collection(db,'users',uid,'pets');
         const q = query(petsRef, orderBy("createdAt","desc"));
@@ -50,7 +45,7 @@ export default function PetList() {
         //May also need to add the if img found change to that 
          <Card style={{ 
             margin: 5, 
-            width: "25%",
+            flex: 1,
             justifyContent: 'center'
         }}>
             <Card.Title title={item.name} titleStyle={{fontWeight: "bold", fontSize:20}}/>

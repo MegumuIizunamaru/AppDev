@@ -21,8 +21,8 @@ export default function TabLayout() {
   if (Platform.OS === 'web') 
     return (
             <Drawer>
-                <Drawer.Screen name="index" options={{ title: "User" }} />
-                <Drawer.Screen name="explore" options={{ title: "Pets" }} />
+                <Drawer.Screen name="index" options={{ title: "Pets" }} />
+                <Drawer.Screen name="explore" options={{ title: "Users" }} />
                 { isLoggedIn && <Drawer.Screen name="setting" options={{ title: "Setting" }} />}
                 <Drawer.Screen name="petpage" options={{ title: "Pet Info", drawerItemStyle: {height: 0}}}/>
             </Drawer>
@@ -64,13 +64,12 @@ export default function TabLayout() {
             tabBarIcon: ({ color }) => <Ionicons name="settings" size={28}  color={color} />,
           }}
         />
-        {/* <Tabs.Screen 
-          name="login"
+        <Tabs.Screen 
+          name="petpage"
           options={{
-            title: 'Log in',
-            tabBarIcon: ({ color }) => <Ionicons size={28} name="log-in-outline" color={color} />,
+            tabBarButton: () => null,
           }}
-        /> */}
+        />
       </Tabs>
     );
 }

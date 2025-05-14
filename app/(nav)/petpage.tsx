@@ -1,6 +1,6 @@
 
 import { View, StyleSheet, Image, Text, Button } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { getSelectedPet } from '@/components/Pet';
 import { Card } from 'react-native-paper'
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -8,27 +8,62 @@ import { ThemedText } from '@/components/ThemedText';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { white } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 import EditPetScreen from '@/components/UpdatePet';
+import { ScrollView } from 'react-native-gesture-handler';
+import { PetItem } from '@/interface';
+import { useFocusEffect, useRouter } from 'expo-router';
+import { collection, doc, onSnapshot } from 'firebase/firestore';
+import { db } from '@/components/FirebaseConfig';
+import { getCurrentUser } from '@/components/CurrentUser';
 // Can you put style on ThemedText?
 export default function PetPage() {
     const item = getSelectedPet();
+    const uid = getCurrentUser()?._id;
     const colorScheme = useColorScheme();
     const c = colorScheme === 'dark' ? '#FFF' : '#000'
+    const [pet, setPet] = useState(item);
+    const router = useRouter();
+    const [appear, setAppear] = useState(false);
+    const handleInfo = (item : PetItem | null) => {
+        console.log(item?._id);
+        setAppear(true);
+    }
+    useEffect(() => {
+        if(!uid || !item?._id) return;
+        const petRef = doc(db,'users',uid,'pets',item._id);
+        const unsubscribe = onSnapshot(petRef, (docSnapshot) => {
+            if (docSnapshot.exists()){
+                setPet(docSnapshot.data() as PetItem);
+            }
+        });
+        return () => unsubscribe();
+    },[uid,item?._id])
+
+    useFocusEffect(
+        React.useCallback(() => {
+            setAppear(false);
+        }, [])
+    );
     //FLAT LIST  GET PETS RETURN LIST
-    return (<View style={[styles.container, { borderColor: c }]}>
-        <ThemedText type="title" style={styles.text}>{item?.name}</ThemedText>
-        <Image
-            source={{ uri: item?.picture }}
-            style={styles.image}
-            resizeMode='stretch' />
-        <View style={{ alignContent: 'center', margin: 10 }}>
-            <ThemedText type="subtitle" style={styles.text}>
-                {`Type: ${item?.type}\nBreed: ${item?.breed}\nGender: ${item?.sex}\nWeight: ${item?.weight} Kilogram`}
-            </ThemedText>
-            <View style={{ marginTop: 15, width: 100, alignSelf: 'center' }}>
-                <Button title="Edit Info" onPress={() => console.log(item?._id)} />
+    return (<ScrollView style={{marginTop:100}}>
+        <View style={[styles.container, { borderColor: c }]}>
+            <ThemedText type="title" style={styles.text}>{pet?.name}</ThemedText>
+            <Image
+                source={{ uri: pet?.picture }}
+                style={styles.image}
+                resizeMode='stretch' />
+            <View style={{ alignContent: 'center', margin: 10 }}>
+                <ThemedText type="subtitle" style={styles.text}>
+                    {`Type: ${pet?.type}\nBreed: ${item?.breed}\nGender: ${pet?.sex}\nWeight: ${pet?.weight} Kilogram`}
+                </ThemedText>
+                <View style={{ marginTop: 15, width: 100, alignSelf: 'center' }}>
+                    <Button title="Edit Info" onPress={() => handleInfo(item)} />
+                </View>
             </View>
         </View>
-    </View>
+        <View>
+            {appear && <EditPetScreen/>}
+        </View>
+    </ScrollView>
     )
 
     // Time to test.
@@ -45,7 +80,7 @@ const styles = StyleSheet.create({
         margin: 10
     },
     text: {
-        alignSelf: 'center'
+        alignSelf: 'center', marginTop: 20
     },
     titleContainer: {
         flexDirection: 'row',
