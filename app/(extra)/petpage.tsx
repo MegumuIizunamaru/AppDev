@@ -1,23 +1,22 @@
 
 import { View, StyleSheet, Image, Text, Button } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import { useTheme } from '@react-navigation/native';
 import { getSelectedPet } from '@/components/Pet';
-import { Card } from 'react-native-paper'
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { ThemedText } from '@/components/ThemedText';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { white } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 import EditPetScreen from '@/components/UpdatePet';
 import { ScrollView } from 'react-native-gesture-handler';
 import { PetItem } from '@/interface';
 import { useFocusEffect, useRouter } from 'expo-router';
-import { collection, doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/components/FirebaseConfig';
 import { getCurrentUser } from '@/components/CurrentUser';
 // Can you put style on ThemedText?
 export default function PetPage() {
     const item = getSelectedPet();
     const uid = getCurrentUser()?._id;
+    const { colors } = useTheme();
     const colorScheme = useColorScheme();
     const c = colorScheme === 'dark' ? '#FFF' : '#000'
     const [pet, setPet] = useState(item);
@@ -44,7 +43,7 @@ export default function PetPage() {
         }, [])
     );
     //FLAT LIST  GET PETS RETURN LIST
-    return (<ScrollView style={{marginTop:100}}>
+    return (<ScrollView style={{marginTop:100, backgroundColor: colors.background}}>
         <View style={[styles.container, { borderColor: c }]}>
             <ThemedText type="title" style={styles.text}>{pet?.name}</ThemedText>
             <Image
@@ -65,8 +64,6 @@ export default function PetPage() {
         </View>
     </ScrollView>
     )
-
-    // Time to test.
 }
 
 const styles = StyleSheet.create({

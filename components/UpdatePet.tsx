@@ -7,7 +7,7 @@ import {
     Alert,
     ScrollView,
     Text,
-    StyleSheet,
+    StyleSheet, Image
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -96,7 +96,7 @@ export default function EditPetScreen() {
 
         if (!uid || !petId) throw new Error("Not authenticated.");
         const petDocRef = doc(db,'users',uid,'pets',petId);
-        await updateDoc(petDocRef,{name:pet.name, sex:pet.sex, picture:pet.picture});
+        await updateDoc(petDocRef,{name:pet.name, type: pet.type,sex:pet.sex, picture:pet.picture});
 
     }
 
@@ -142,7 +142,7 @@ export default function EditPetScreen() {
             {/* … same inputs for type, breed, weight, conditions … */}
 
             <Button title="Pick New Image" onPress={pickImage} />
-            {pet.picture ? <Text style={styles.preview}>Image ready</Text> : null}
+            {pet.picture ? <Image source={{uri:pet.picture}}/> : null}
 
             <View style={styles.submit}>
                 <Button title="Update Pet" onPress={test} />

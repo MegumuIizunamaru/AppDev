@@ -64,12 +64,6 @@ export default function TabLayout() {
             tabBarIcon: ({ color }) => <Ionicons name="settings" size={28}  color={color} />,
           }}
         />
-        <Tabs.Screen 
-          name="petpage"
-          options={{
-            tabBarButton: () => null,
-          }}
-        />
       </Tabs>
     );
 }

@@ -37,7 +37,7 @@ export default function PetList() {
 
     const handleInfo = (item : PetItem) => {
         setPet(item);
-        router.push('/(nav)/petpage');
+        router.push('/(extra)/petpage');
     }
 
     const renderItem = ({ item }: { item: PetItem }) => (
@@ -52,8 +52,7 @@ export default function PetList() {
             <Card.Cover source={{ uri: item.picture }}/>
             
             <Card.Content> 
-                <Text>{item.type}, Breed: {item.breed}</Text>
-                <Text>Gender: {item.sex}, Weight: {item.weight}</Text>
+                <ThemedText style={{color: '#000', fontWeight: 'bold'}}>{`Type: ${item.type}\nBreed: ${item.breed}\nGender: ${item.sex}\nWeight: ${item.weight} Kilogram`}</ThemedText>
             </Card.Content>
             <Card.Actions>
                 <Button title="View Info"
@@ -73,6 +72,7 @@ export default function PetList() {
                         numColumns={numColums}
                         key={numColums}
                         contentContainerStyle={{ padding: 1, margin: 5 }}
+                        scrollEnabled={false}
                          /> :
                     <ThemedText type="title">No pets? Please register one.</ThemedText>
             }
