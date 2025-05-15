@@ -12,7 +12,7 @@ import Card from './Card';
 import { PetItem } from "@/interface";
 import { setPet } from "./Pet";
 
-export default function PetList() {
+export default function PetList({onSelectPet}:{ onSelectPet:(pet: PetItem) => void}) {
     const uid = auth.currentUser?.uid;
     const [petData, setPetData] = useState<PetItem[]>([])
     const SM_SCREEN = 576
@@ -35,14 +35,15 @@ export default function PetList() {
     }, [uid]);
 
     const handleInfo = (item: PetItem) => {
-        setPet(item);
+        console.log(item?.name);
+        onSelectPet(item);
     }
 
     const renderItem = ({ item }: { item: PetItem }) => (
         // <Card name={item.name} img={require("@/assets/images/paw_placeholder.jpg")} onPress={() => Alert.alert(item.name)}></Card>
         //May also need to add the if img found change to that 
         <Card name={item.name} img={item.picture} onPress={function (): void {
-            handleInfo;
+            handleInfo(item);
         }} />
     )
 
@@ -56,7 +57,7 @@ export default function PetList() {
                         renderItem={renderItem}
                         numColumns={numColums}
                         key={numColums}
-                        contentContainerStyle={{ padding: 1, margin: 5 }}
+                        contentContainerStyle={{ padding:5, margin: 5, gap: 15 }}
                         scrollEnabled={false}
                     /> :
                     <ThemedText type="title">No pets? Please register one.</ThemedText>

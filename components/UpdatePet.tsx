@@ -126,7 +126,7 @@ export default function EditPetScreen() {
                 defaultValue={{ title: pet.sex }}
                 onSelect={item => setPet(p => ({ ...p, sex: item.title }))}
                 renderButton={selected =>
-                    <View style={inputStyles}>
+                    <View >
                         <Text style={{ color: C, fontWeight: 'bold' }}>
                             {selected?.title || "Select sex"}
                         </Text>

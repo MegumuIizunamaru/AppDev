@@ -48,11 +48,11 @@ export default function PetList() {
             flex: 1,
             justifyContent: 'center'
         }}>
-            <Card.Title title={item.name} titleStyle={{fontWeight: "bold", fontSize:20}}/>
-            <Card.Cover source={{ uri: item.picture }}/>
+            <Card.Title title={item.name} titleStyle={{fontWeight: "bold", fontSize:25, alignSelf:'center'}}/>
+            <Card.Cover source={{ uri: item.picture }} resizeMode="contain" style={{height:300, width:300, alignSelf: 'center'}}/>
             
             <Card.Content> 
-                <ThemedText style={{color: '#000', fontWeight: 'bold'}}>{`Type: ${item.type}\nBreed: ${item.breed}\nGender: ${item.sex}\nWeight: ${item.weight} Kilogram`}</ThemedText>
+                <ThemedText style={{color: '#000', fontWeight: 'bold', alignSelf:'center'}}>{`Type: ${item.type}\nBreed: ${item.breed}\nGender: ${item.sex}\nWeight: ${item.weight} Kilogram`}</ThemedText>
             </Card.Content>
             <Card.Actions>
                 <Button title="View Info"

@@ -15,9 +15,19 @@ export interface PetItem{
     breed:string,
     weight:number,
     picture:string,
-    condition:string[]
+    condition:string[],
+    vaccinationHistory: Date[] | undefined
 }
 
 interface PetJson{
     all_pet: PetItem[]
+}
+interface HealthRecords{
+    lastVacination: Date
+}
+interface Schedule{
+    _id:string,
+    pet:PetItem,
+    location:string,
+    scheduleDate:Date
 }

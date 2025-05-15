@@ -21,7 +21,7 @@ import { PetItem } from '@/interface';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { textColor } from './utils';
 
-type NewPet = Omit<PetItem, '_id'> & { createdAt: Date };
+type NewPet = Omit<PetItem, '_id' | 'vaccinationHistory'> & { createdAt: Date };
 
 export default function AddPetForm() {
     const router = useRouter();
@@ -54,7 +54,7 @@ export default function AddPetForm() {
                 const manipResult = await ImageManipulator.manipulateAsync(
                     uri,
                     [{ resize: { width: 800 } }],
-                    { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+                    { compress: 0.3, format: ImageManipulator.SaveFormat.JPEG }
                 );
                 const b64 = await FileSystem.readAsStringAsync(manipResult.uri, {
                     encoding: FileSystem.EncodingType.Base64,

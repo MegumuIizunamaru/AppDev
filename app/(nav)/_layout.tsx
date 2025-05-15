@@ -23,6 +23,7 @@ export default function TabLayout() {
             <Drawer>
                 <Drawer.Screen name="index" options={{ title: "Pets" }} />
                 <Drawer.Screen name="explore" options={{ title: "Users" }} />
+                <Drawer.Screen name="schedule" options={{ title: "Schedule" }} />
                 { isLoggedIn && <Drawer.Screen name="setting" options={{ title: "Setting" }} />}
                 <Drawer.Screen name="petpage" options={{ title: "Pet Info", drawerItemStyle: {height: 0}}}/>
             </Drawer>
@@ -55,6 +56,13 @@ export default function TabLayout() {
           options={{
             title: 'Explorer',
             tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          }}
+        />
+        <Tabs.Screen
+          name="schedule"
+          options={{
+            title: 'Schedule',
+            tabBarIcon: ({ color }) => <Ionicons size={28} name="calendar-outline" color={color} />,
           }}
         />
         <Tabs.Screen
