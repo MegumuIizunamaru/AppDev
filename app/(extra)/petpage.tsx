@@ -9,7 +9,7 @@ import EditPetScreen from '@/components/UpdatePet';
 import { ScrollView } from 'react-native-gesture-handler';
 import { PetItem } from '@/interface';
 import { useFocusEffect, useRouter } from 'expo-router';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { deleteDoc, doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/components/FirebaseConfig';
 import { getCurrentUser } from '@/components/CurrentUser';
 // Can you put style on ThemedText?
@@ -22,20 +22,26 @@ export default function PetPage() {
     const [pet, setPet] = useState(item);
     const router = useRouter();
     const [appear, setAppear] = useState(false);
-    const handleInfo = (item : PetItem | null) => {
+    const handleInfo = (item: PetItem | null) => {
         console.log(item?._id);
         setAppear(true);
     }
+    const handleDelete = async () => {
+        if (item === null || uid === undefined) return;
+        const docRef = doc(db, "users", uid, "pets", item?._id)
+        await deleteDoc(docRef)
+        router.back()
+    }
     useEffect(() => {
-        if(!uid || !item?._id) return;
-        const petRef = doc(db,'users',uid,'pets',item._id);
+        if (!uid || !item?._id) return;
+        const petRef = doc(db, 'users', uid, 'pets', item._id);
         const unsubscribe = onSnapshot(petRef, (docSnapshot) => {
-            if (docSnapshot.exists()){
+            if (docSnapshot.exists()) {
                 setPet(docSnapshot.data() as PetItem);
             }
         });
         return () => unsubscribe();
-    },[uid,item?._id])
+    }, [uid, item?._id])
 
     useFocusEffect(
         React.useCallback(() => {
@@ -43,7 +49,10 @@ export default function PetPage() {
         }, [])
     );
     //FLAT LIST  GET PETS RETURN LIST
-    return (<ScrollView style={{marginTop:100, backgroundColor: colors.background}}>
+    return (<ScrollView style={{ marginTop: 100, backgroundColor: colors.background }}>
+        <View style={{width:125, alignSelf:'center', marginTop: 10}}>
+            <Button title="Return Home" onPress={()=>router.back()}/>
+        </View>
         <View style={[styles.container, { borderColor: c }]}>
             <ThemedText type="title" style={styles.text}>{pet?.name}</ThemedText>
             <Image
@@ -54,13 +63,27 @@ export default function PetPage() {
                 <ThemedText type="subtitle" style={styles.text}>
                     {`Type: ${pet?.type}\nBreed: ${item?.breed}\nGender: ${pet?.sex}\nWeight: ${pet?.weight} Kilogram`}
                 </ThemedText>
-                <View style={{ marginTop: 15, width: 100, alignSelf: 'center' }}>
-                    <Button title="Edit Info" onPress={() => handleInfo(item)} />
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginTop: 15,
+                    }}
+                >
+                    <View style={{ marginRight: 10 }}>
+                        <Button title="Edit Info" onPress={() => handleInfo(item)} />
+                    </View>
+                    <View>
+                        <Button title="DELETE THIS" onPress={() => handleDelete()} color="#FF0000" />
+                    </View>
                 </View>
+
+
             </View>
         </View>
         <View>
-            {appear && <EditPetScreen/>}
+            {appear && <EditPetScreen />}
         </View>
     </ScrollView>
     )
