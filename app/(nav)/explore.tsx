@@ -6,6 +6,7 @@ import { getCurrentUser, CurrentUserType } from '@/components/CurrentUser';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import React, {useEffect, useState} from 'react';
 import { Timestamp } from 'firebase/firestore'
+import PetList from '@/components/PetListSchedule'
 
 export default function TabTwoScreen() {
   const user = getCurrentUser();

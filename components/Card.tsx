@@ -17,7 +17,7 @@ export default function Card({name,img,onPress}:Powerplex){
                 borderColor,
             }
         ]}>
-        <View>
+        <View style={{alignItems:'center'}}>
             <Image source={isURL ? {uri: img} : img} style={conquest.avatar} resizeMode='cover'/>
             <Text style={[conquest.text,{color:textColor}]}>{name}</Text>
         </View>
@@ -32,20 +32,19 @@ type Powerplex = {
 const conquest = StyleSheet.create({
     card: {
         flex: 1,
-        flexDirection: 'row',
+        //flexDirection: 'row',
         //alignItems: 'center',
         padding: 10,
         borderRadius: 15,
         borderWidth: 2,
         borderColor: 'black',
         //width: 250,
-        marginTop: 1
+        margin: 5
     },
     avatar: {
         width: 80,
         height: 80,
         borderRadius: 40,
-        marginRight: 15,
     },
     text: {
         fontSize: 18,

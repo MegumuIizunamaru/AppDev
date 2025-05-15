@@ -9,7 +9,7 @@ export default function Banner()
     // return JSX component
     return(
         <ThemedView style={venueStyles.bannerContainer}>
-            <Image source={require('@/assets/images/cover.jpg')}
+            <Image source={require('@/assets/images/BackgroundwithIcon.jpg')}
             style = {venueStyles.bannerImg}
             resizeMode = "center"
             />

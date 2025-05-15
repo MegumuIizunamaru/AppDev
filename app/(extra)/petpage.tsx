@@ -30,6 +30,7 @@ export default function PetPage() {
         if (item === null || uid === undefined) return;
         const docRef = doc(db, "users", uid, "pets", item?._id)
         await deleteDoc(docRef)
+        console.log("Deleted!");
         router.back()
     }
     useEffect(() => {
@@ -50,8 +51,8 @@ export default function PetPage() {
     );
     //FLAT LIST  GET PETS RETURN LIST
     return (<ScrollView style={{ marginTop: 100, backgroundColor: colors.background }}>
-        <View style={{width:125, alignSelf:'center', marginTop: 10}}>
-            <Button title="Return Home" onPress={()=>router.back()}/>
+        <View style={{ width: 125, alignSelf: 'center', marginTop: 10 }}>
+            <Button title="Return Home" onPress={() => router.back()} />
         </View>
         <View style={[styles.container, { borderColor: c }]}>
             <ThemedText type="title" style={styles.text}>{pet?.name}</ThemedText>
