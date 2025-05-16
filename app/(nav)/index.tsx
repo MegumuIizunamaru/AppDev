@@ -40,7 +40,6 @@ const HomeScreen: React.FC = () => {
       <View>
         <ThemedText type='title'>{isLoggedIn ? `Greetings, ${user?.username}.` : "User isn't logged in"}</ThemedText>
         {isLoggedIn ? (<View style={styles.buttonStyle}><Button title='Log Out' onPress={() => handleLogout()} /></View>) : null}
-        <View><AddPetForm/></View>
       </View>
       <PetList/>
     </ParallaxScrollView>

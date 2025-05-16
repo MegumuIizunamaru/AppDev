@@ -22,10 +22,10 @@ export default function TabLayout() {
     return (
             <Drawer>
                 <Drawer.Screen name="index" options={{ title: "Pets" }} />
+                <Drawer.Screen name="register-pet" options={{ title: "Register Pets"}}/>
                 <Drawer.Screen name="explore" options={{ title: "Users" }} />
                 <Drawer.Screen name="schedule" options={{ title: "Schedule" }} />
                 { isLoggedIn && <Drawer.Screen name="setting" options={{ title: "Setting" }} />}
-                <Drawer.Screen name="petpage" options={{ title: "Pet Info", drawerItemStyle: {height: 0}}}/>
             </Drawer>
         )
   else

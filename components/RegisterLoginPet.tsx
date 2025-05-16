@@ -7,7 +7,7 @@ import {
     Alert,
     ScrollView,
     Text,
-    StyleSheet,
+    StyleSheet, Image
 } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown'
 import * as ImagePicker from 'expo-image-picker';
@@ -20,6 +20,7 @@ import { useRouter } from 'expo-router';
 import { PetItem } from '@/interface';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { textColor } from './utils';
+import { ThemedText } from './ThemedText';
 
 type NewPet = Omit<PetItem, '_id' | 'vaccinationHistory'> & { createdAt: Date };
 
@@ -40,6 +41,7 @@ export default function AddPetForm() {
         condition: [],
         createdAt: new Date(),
     });
+    const [image, setImage] = useState('')
     const [condInput, setCondInput] = useState('');
 
     const pickImage = async () => {
@@ -60,9 +62,12 @@ export default function AddPetForm() {
                     encoding: FileSystem.EncodingType.Base64,
                 });
                 const dataUri = `data:image/jpeg;base64,${b64}`;
+                console.warn("Image uploaded.");
+                setImage(dataUri);
                 setPet((p) => ({ ...p, picture: dataUri }));
             } catch (e) {
                 console.error('Image manipulation error:', e);
+                setImage(uri);
                 setPet((p) => ({ ...p, picture: uri }));
             }
         }
@@ -88,6 +93,7 @@ export default function AddPetForm() {
                 condition: [],
                 createdAt: new Date()
             })
+            router.back();
         } catch (e) {
             console.error(e);
             Alert.alert('Error', 'Failed to add pet');
@@ -102,83 +108,91 @@ export default function AddPetForm() {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Text style={textStyles}>Name</Text>
-            <TextInput
-                style={inputStyles}
-                value={pet.name}
-                onChangeText={txt => setPet(p => ({ ...p, name: txt }))}
-            />
-            <Text style={textStyles}>Sex</Text>
-            <SelectDropdown data={sexSelect} onSelect={(selectedItem) => setPet(p => ({ ...p, sex: selectedItem.title }))}
-                renderButton={(selectedItem) => {
-                    return (
-                        <View>
-                            <Text style={{ fontWeight: 'bold', color: C }}>
-                                {(selectedItem && selectedItem.title) || "What is the pet's sex?"}
-                            </Text>
-                        </View>
-                    );
-                }}
-                renderItem={(item) => {
-                    return (
-                        <View>
-                            <Text style={{fontWeight:'bold'}}>{item.title}</Text>
-                        </View>
-                    );
-                }}
-                showsVerticalScrollIndicator={false}/>
+            <View style={{width: '50%'}}>
+                <Text style={textStyles}>Name</Text>
+                <TextInput
+                    style={inputStyles}
+                    value={pet.name}
+                    onChangeText={txt => setPet(p => ({ ...p, name: txt }))}
+                />
+                <Text style={textStyles}>Sex</Text>
+                <SelectDropdown data={sexSelect} onSelect={(selectedItem) => setPet(p => ({ ...p, sex: selectedItem.title }))}
+                    renderButton={(selectedItem) => {
+                        return (
+                            <View>
+                                <Text style={inputStyles}>
+                                    {(selectedItem && selectedItem.title) || "What is the pet's sex?"}
+                                </Text>
+                            </View>
+                        );
+                    }}
+                    renderItem={(item) => {
+                        return (
+                            <View>
+                                <Text style={{ fontWeight: 'bold' }}>{item.title}</Text>
+                            </View>
+                        );
+                    }}
+                    showsVerticalScrollIndicator={false} />
 
-            <Text style={textStyles}>Type</Text>
-            <TextInput
-                style={inputStyles}
-                value={pet.type}
-                onChangeText={txt => setPet(p => ({ ...p, type: txt }))}
-            />
+                <Text style={textStyles}>Type</Text>
+                <TextInput
+                    style={inputStyles}
+                    value={pet.type}
+                    onChangeText={txt => setPet(p => ({ ...p, type: txt }))}
+                />
 
-            <Text style={textStyles}>Breed</Text>
-            <TextInput
-                style={inputStyles}
-                value={pet.breed}
-                onChangeText={txt => setPet(p => ({ ...p, breed: txt }))}
-            />
+                <Text style={textStyles}>Breed</Text>
+                <TextInput
+                    style={inputStyles}
+                    value={pet.breed}
+                    onChangeText={txt => setPet(p => ({ ...p, breed: txt }))}
+                />
 
-            <Text style={textStyles}>Weight (kg)</Text>
-            <TextInput
-                style={inputStyles}
-                keyboardType="decimal-pad"
-                value={pet.weight.toString()}
-                onChangeText={txt => setPet(p => ({ ...p, weight: parseFloat(txt) || 0 }))}
-            />
+                <Text style={textStyles}>Weight (kg)</Text>
+                <TextInput
+                    style={inputStyles}
+                    keyboardType="decimal-pad"
+                    value={pet.weight.toString()}
+                    onChangeText={txt => setPet(p => ({ ...p, weight: parseFloat(txt) || 0 }))}
+                />
 
-            <Text style={textStyles}>Conditions</Text>
-            <TextInput
-                style={[{ marginBottom: 24 }, inputStyles]}
-                placeholder="comma separated"
-                value={condInput}
-                onChangeText={setCondInput}
-                onBlur={() =>
-                    setPet(p => ({
-                        ...p,
-                        condition: condInput
-                            .split(',')
-                            .map(s => s.trim())
-                            .filter(Boolean),
-                    }))
-                }
-            />
+                <Text style={textStyles}>Conditions</Text>
+                <TextInput
+                    style={[{ marginBottom: 24 }, inputStyles]}
+                    placeholder="comma separated"
+                    value={condInput}
+                    onChangeText={setCondInput}
+                    onBlur={() =>
+                        setPet(p => ({
+                            ...p,
+                            condition: condInput
+                                .split(',')
+                                .map(s => s.trim())
+                                .filter(Boolean),
+                        }))
+                    }
+                />
 
-            <Button title="Pick Image" onPress={pickImage} />
-            {pet.picture ? <Text style={styles.preview}>✓ Image selected</Text> : null}
+                <Button title="Pick Image" onPress={pickImage} />
+                {pet.picture ? <View><Text style={styles.preview}>✓ Image selected</Text></View> : null}
 
-            <View style={styles.submit}>
-                <Button title="Save Pet" onPress={handleSubmit} />
+                <View style={styles.submit}>
+                    
+                    <Button title="Save Pet" onPress={handleSubmit} />
+                </View>
+
+            </View>
+            <View style={{marginLeft: 50, borderWidth: 2, padding: 8, borderColor: '#888', borderRadius: 8}}>
+                <ThemedText type="title" style={{marginBottom: 20}}>Image Preview:</ThemedText>
+                <Image source={{ uri: pet?.picture }} style={{ width: 300, height: 300 }} />
             </View>
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { padding: 20 },
+    container: { padding: 20, flexDirection: 'row'},
     label: { marginTop: 12, marginBottom: 4, fontWeight: 'bold' },
     input: {
         borderWidth: 1,
