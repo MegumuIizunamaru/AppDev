@@ -59,10 +59,10 @@ export default function PetPage() {
             <Image
                 source={{ uri: pet?.picture }}
                 style={styles.image}
-                resizeMode='stretch' />
+                resizeMode='contain' />
             <View style={{ alignContent: 'center', margin: 10 }}>
                 <ThemedText type="subtitle" style={styles.text}>
-                    {`Type: ${pet?.type}\nBreed: ${item?.breed}\nGender: ${pet?.sex}\nWeight: ${pet?.weight} Kilogram`}
+                    {`Type: ${pet?.type}\nBreed: ${pet?.breed}\nGender: ${pet?.sex}\nWeight: ${pet?.weight} Kilogram`}
                 </ThemedText>
                 <View
                     style={{

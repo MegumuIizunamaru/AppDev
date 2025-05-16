@@ -68,11 +68,11 @@ export default function LoginScreen({ navigation }: any) {
             <View style={styles.button}>
                 <Button title='Log in' onPress={handleLogin} />
                 <ThemedText style={{ color: textColor, marginTop: 20 }}>
-                    Aw, you don't have an account?{' '}
+                    Aw, you don't have an account?{' '}</ThemedText>
                     <TouchableOpacity onPress={() => router.push('/(auth)/register')}>
                         <ThemedText style={{color: "#528AAE"}}>Register here!</ThemedText>
                     </TouchableOpacity>
-                </ThemedText>
+                
             </View>
         </View>
     )
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     button: {
         marginTop: 25,
         alignItems: 'center',
+        justifyContent: 'center',
         fontSize: 30
     }
 });

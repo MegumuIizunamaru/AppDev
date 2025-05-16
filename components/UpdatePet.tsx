@@ -32,7 +32,7 @@ export default function EditPetScreen() {
     const C = colorScheme === 'dark' ? '#FFF' : '#000';
 
     const updatePet = async (updates: Partial<NewPet>) => {
-        
+
 
         if (!uid || !petId) throw new Error("Not authenticated.");
         const petRef = doc(db, 'users', uid, petId);
@@ -68,81 +68,83 @@ export default function EditPetScreen() {
             setPet(p => ({ ...p, picture: uri }));
         }
     };
-    const handleUpdate = async () => {
-        if (!pet.name || !pet.type || !pet.breed) {
-            Alert.alert('Validation', 'Name, type and breed are required');
-            return;
-        }
-        try {
-            await updatePet({
-                name: pet.name,
-                sex: pet.sex,
-                type: pet.type,
-                breed: pet.breed,
-                weight: pet.weight,
-                picture: pet.picture,
-                condition: pet.condition,
-            });
 
-            Alert.alert('Success!');
-            console.log("SUCCESS.")
-        } catch (e) {
-            console.error(e);
-            Alert.alert('Error :(');
-        }
-    }
     const test = async () => {
         const uid = getAuth().currentUser?.uid;
 
         if (!uid || !petId) throw new Error("Not authenticated.");
-        const petDocRef = doc(db,'users',uid,'pets',petId);
-        await updateDoc(petDocRef,{name:pet.name, type: pet.type,sex:pet.sex, picture:pet.picture});
+        const petDocRef = doc(db, 'users', uid, 'pets', petId);
+        await updateDoc(petDocRef, { 
+            name: pet.name, 
+            type: pet.type, 
+            breed: pet.breed,
+            sex: pet.sex, 
+            weight: pet.weight, 
+            picture: pet.picture });
 
     }
 
     const sexSelect = [{ title: 'Male' }, { title: 'Female' }];
 
     const textStyles = [styles.label, { color: C }];
-    const inputStyles = [styles.input, { color: C }];
+    const inputStyles = [styles.input, { color: C, marginRight: 5 }];
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Text style={textStyles}>Name</Text>
-            <TextInput
-                style={inputStyles}
-                value={pet.name}
-                onChangeText={txt => setPet(p => ({ ...p, name: txt }))}
-            />
-            <Text style={textStyles}>Type</Text>
-            <TextInput
-                style={inputStyles}
-                value={pet.type}
-                onChangeText={txt => setPet(p => ({ ...p, type: txt }))}
-            />
-
-            <Text style={textStyles}>Sex</Text>
-            <SelectDropdown
-                data={sexSelect}
-                defaultValue={{ title: pet.sex }}
-                onSelect={item => setPet(p => ({ ...p, sex: item.title }))}
-                renderButton={selected =>
-                    <View >
-                        <Text style={{ color: C, fontWeight: 'bold' }}>
-                            {selected?.title || "Select sex"}
-                        </Text>
-                    </View>
-                }
-                renderItem={item =>
-                    <View style={styles.dropdownItem}>
-                        <Text style={{ fontWeight: 'bold' }}>{item.title}</Text>
-                    </View>
-                }
-            />
+            <View style={styles.view}>
+                <Text style={textStyles}>Name:  </Text>
+                <TextInput
+                    style={inputStyles}
+                    value={pet.name}
+                    onChangeText={txt => setPet(p => ({ ...p, name: txt }))}
+                />
+                <Text style={textStyles}>Type:  </Text>
+                <TextInput
+                    style={inputStyles}
+                    value={pet.type}
+                    onChangeText={txt => setPet(p => ({ ...p, type: txt }))}
+                />
+            </View>
+            <View style={styles.view}>
+                <Text style={textStyles}>Weight (kg):  </Text>
+                <TextInput
+                    style={inputStyles}
+                    keyboardType='decimal-pad'
+                    value={pet.weight.toString()}
+                    onChangeText={txt => setPet(p => ({ ...p, weight: parseFloat(txt) || 0 }))}
+                />
+                <Text style={textStyles}>Breed:  </Text>
+                <TextInput
+                    style={inputStyles}
+                    value={pet.breed}
+                    onChangeText={txt => setPet(p => ({ ...p, breed: txt }))}
+                />
+            </View>
+            <View style={{ marginBottom: 10, flexDirection: 'row' }}>
+                <Text style={[textStyles, { textAlign: 'center' }]}>Sex: </Text>
+                <SelectDropdown
+                    data={sexSelect}
+                    defaultValue={{ title: pet.sex }}
+                    onSelect={item => setPet(p => ({ ...p, sex: item.title }))}
+                    renderButton={selected =>
+                        <View style={inputStyles}>
+                            <Text style={{ color: C, fontWeight: 'bold' }}>
+                                {selected?.title || "Select sex"}
+                            </Text>
+                        </View>
+                    }
+                    renderItem={item =>
+                        <View style={styles.dropdownItem}>
+                            <Text style={{ fontWeight: 'bold' }}>{item.title}</Text>
+                        </View>
+                    }
+                />
+            </View>
 
             {/* … same inputs for type, breed, weight, conditions … */}
 
             <Button title="Pick New Image" onPress={pickImage} />
-            {pet.picture ? <Image source={{uri:pet.picture}}/> : null}
+            {pet.picture ? <Image source={{ uri: pet.picture }} /> : null}
 
             <View style={styles.submit}>
                 <Button title="Update Pet" onPress={test} />
@@ -153,13 +155,17 @@ export default function EditPetScreen() {
 
 const styles = StyleSheet.create({
     loading: { flex: 1, textAlign: 'center', marginTop: 50 },
-    container: { padding: 20 },
-    label: { marginTop: 12, marginBottom: 4, fontWeight: 'bold' },
+    container: { padding: 20, justifyContent: 'center', alignItems: 'center' },
+    label: { marginTop: 12, marginBottom: 4, fontWeight: 'bold', justifyContent: 'center', alignItems: 'center' },
+    view: {
+        flexDirection: 'row', justifyContent: 'center',
+        alignItems: 'center', margin: 5
+    },
     input: {
-        borderWidth: 1, borderColor: '#888', borderRadius: 8, padding: 8
+        borderWidth: 1, borderColor: '#888', borderRadius: 8, padding: 8, width: 100
     },
     preview: { marginTop: 8, color: 'green' },
     submit: { marginTop: 24 },
-    dropdownItem: { padding: 8 },
+    dropdownItem: { padding: 8, width: 100 },
     error: { color: 'red', textAlign: 'center', marginTop: 40 },
 });

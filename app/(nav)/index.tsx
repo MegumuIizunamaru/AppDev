@@ -38,7 +38,7 @@ const HomeScreen: React.FC = () => {
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={<Banner />}>
       <View>
-        <ThemedText>{isLoggedIn ? 'User is logged in' : "User isn't logged in"}</ThemedText>
+        <ThemedText type='title'>{isLoggedIn ? `Greetings, ${user?.username}.` : "User isn't logged in"}</ThemedText>
         {isLoggedIn ? (<View style={styles.buttonStyle}><Button title='Log Out' onPress={() => handleLogout()} /></View>) : null}
         <View><AddPetForm/></View>
       </View>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     width: 100,
-    marginTop: 10
+    marginTop: 20
   }
 });
 
