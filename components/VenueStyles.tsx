@@ -13,7 +13,8 @@ const venueStyles = StyleSheet.create(
         bannerImg: {
             width: '100%',
             height: '100%',
-            margin: 0
+            margin: 0,
+            backgroundColor:'#ddecf7'
         },
         bannerTextTitle:{
             color: 'black',

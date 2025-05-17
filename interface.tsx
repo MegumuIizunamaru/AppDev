@@ -25,7 +25,7 @@ interface PetJson{
 interface HealthRecords{
     lastVacination: Date
 }
-interface Schedule{
+export interface Schedule{
     _id:string,
     pet:PetItem,
     location:string,

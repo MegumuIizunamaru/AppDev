@@ -12,6 +12,7 @@ import {Card, Text} from "react-native-paper"
 import { PetItem } from "@/interface";
 import { setPet } from "./Pet";
 import { router } from "expo-router";
+import { ThemedView } from "./ThemedView";
 
 export default function PetList() {
     const uid = auth.currentUser?.uid;
@@ -23,7 +24,7 @@ export default function PetList() {
     useEffect(() => {
         if (!uid) return;
         const petsRef = collection(db,'users',uid,'pets');
-        const q = query(petsRef, orderBy("createdAt","desc"));
+        const q = query(petsRef, orderBy("createdAt","asc"));
 
         const unsub = onSnapshot(q,snapshot => {
             const list = snapshot.docs.map(doc => ({
@@ -65,15 +66,17 @@ export default function PetList() {
         <View>
             {
                 (petData.length > 0) ?
+                <View style={{borderWidth: 2, borderColor: '#808080', padding: 20, borderRadius: 8}}>
+                    <ThemedText type='subtitle'>Your registered pets:</ThemedText>
                     <FlatList
                         data={petData}
-                        keyExtractor={(item) => item._id} 
+                        keyExtractor={(item) => item._id}
                         renderItem={renderItem}
                         numColumns={numColums}
                         key={numColums}
                         contentContainerStyle={{ padding: 1, margin: 5 }}
-                        scrollEnabled={false}
-                         /> :
+                        scrollEnabled={false} />
+                        </View> :
                     <ThemedText type="title">No pets? Please register one.</ThemedText>
             }
         </View>
