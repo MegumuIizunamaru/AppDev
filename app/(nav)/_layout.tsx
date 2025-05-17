@@ -22,7 +22,7 @@ export default function TabLayout() {
     return (
             <Drawer>
                 <Drawer.Screen name="index" options={{ title: "Pets" }} />
-                <Drawer.Screen name="register-pet" options={{ title: "Register Pets"}}/>
+                <Drawer.Screen name="register-pet" options={{ title: "Register Pet"}}/>
                 <Drawer.Screen name="explore" options={{ title: "Users" }} />
                 <Drawer.Screen name="schedule" options={{ title: "Schedule" }} />
                 { isLoggedIn && <Drawer.Screen name="setting" options={{ title: "Setting" }} />}
@@ -54,8 +54,15 @@ export default function TabLayout() {
         <Tabs.Screen
           name="explore"
           options={{
-            title: 'Explorer',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+            title: 'User',
+            tabBarIcon: ({ color }) => <Ionicons size={28} name="person-circle-outline" color={color} />,
+          }}
+        />
+        <Tabs.Screen
+          name="register-pet"
+          options={{
+            title: 'Register Pet',
+            tabBarIcon: ({ color }) => <Ionicons size={28} name="add-outline" color={color} />,
           }}
         />
         <Tabs.Screen

@@ -108,7 +108,7 @@ export default function AddPetForm() {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <View style={{width: '50%'}}>
+            <View style={{ width: '50%' }}>
                 <Text style={textStyles}>Name</Text>
                 <TextInput
                     style={inputStyles}
@@ -173,26 +173,27 @@ export default function AddPetForm() {
                         }))
                     }
                 />
-
-                <Button title="Pick Image" onPress={pickImage} />
-                {pet.picture ? <View><Text style={styles.preview}>✓ Image selected</Text></View> : null}
+                <View>
+                    <Button title="Pick Image" onPress={pickImage} />
+                    {pet.picture ? <View><Text style={styles.preview}>✓ Image selected</Text></View> : null}
+                    <View style={{ marginTop: 5, borderWidth: 2, padding: 8, borderColor: '#888', borderRadius: 8 }}>
+                        <ThemedText type="title" style={{ marginBottom: 20 }}>Image Preview:</ThemedText>
+                        <Image source={{ uri: pet?.picture }} style={{ width: 300, height: 300 }} />
+                    </View>
+                </View>
 
                 <View style={styles.submit}>
-                    
                     <Button title="Save Pet" onPress={handleSubmit} />
                 </View>
 
             </View>
-            <View style={{marginLeft: 50, borderWidth: 2, padding: 8, borderColor: '#888', borderRadius: 8}}>
-                <ThemedText type="title" style={{marginBottom: 20}}>Image Preview:</ThemedText>
-                <Image source={{ uri: pet?.picture }} style={{ width: 300, height: 300 }} />
-            </View>
+
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { padding: 20, flexDirection: 'row'},
+    container: { padding: 20, flexDirection: 'row' },
     label: { marginTop: 12, marginBottom: 4, fontWeight: 'bold' },
     input: {
         borderWidth: 1,

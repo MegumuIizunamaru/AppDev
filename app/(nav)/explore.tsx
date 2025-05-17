@@ -31,17 +31,7 @@ export default function TabTwoScreen() {
       return () => unsubscribe();
     }, [uid])
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }
-    >
+    <View>
       {user !== null ? (
         <View style={styles.infoContainer}>
           <View style={styles.infoRow}>
@@ -64,7 +54,7 @@ export default function TabTwoScreen() {
           <ThemedText style={[styles.errorText, styles.text]}>User not found!</ThemedText>
         </View>
       )}
-    </ParallaxScrollView>
+    </View>
   );
 }
 

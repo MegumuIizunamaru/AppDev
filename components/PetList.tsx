@@ -50,7 +50,7 @@ export default function PetList() {
             justifyContent: 'center'
         }}>
             <Card.Title title={item.name} titleStyle={{fontWeight: "bold", fontSize:25, alignSelf:'center'}}/>
-            <Card.Cover source={{ uri: item.picture }} resizeMode="contain" style={{height:300, width:300, alignSelf: 'center'}}/>
+            <Card.Cover source={{ uri: item.picture }} resizeMode="contain" style={{height:120, width:120, alignSelf: 'center'}}/>
             
             <Card.Content> 
                 <ThemedText style={{color: '#000', fontWeight: 'bold', alignSelf:'center'}}>{`Type: ${item.type}\nBreed: ${item.breed}\nGender: ${item.sex}\nWeight: ${item.weight} Kilogram`}</ThemedText>
