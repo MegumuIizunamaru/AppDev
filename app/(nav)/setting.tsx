@@ -26,7 +26,7 @@ export default function ProfileImageUploader() {
   }
 
   return (
-    <View style={{alignSelf:'center', alignItems:'center', marginTop:100, borderWidth: 2, borderColor:'#FFF', padding: 20, width: '20%', borderRadius:100}}>
+    <View style={{alignSelf:'center', alignItems:'center', marginTop:100, borderWidth: 2, borderColor:'#808080', padding: 20, width: 200, borderRadius:10}}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <ThemedText style={{ marginRight: 5 }}>Edit Name:</ThemedText>
         <TextInput
